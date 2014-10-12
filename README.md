@@ -1,4 +1,4 @@
-math-html-pdf
+prerender-mathjax
 =============
 
-Preprocess mathy html with MathJax-node and then use PrinceXML to output PDF.
+Koa middleware to prerender mathjax.

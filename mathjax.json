@@ -1,0 +1,9 @@
+{
+  "linebreaks": true,
+  "nodollars": false,
+  "semantics": true,
+  "format": ["AsciiMath","TeX","MathML"],
+  "eqno": "none",
+  "ex": 6,
+  "width": 100
+}

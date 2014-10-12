@@ -1,0 +1,44 @@
+{
+  "name": "prerender-mathjax",
+  "version": "1.0.0",
+  "description": "Preprocess mathy html with MathJax-node and then use PrinceXML to output PDF.",
+  "main": "lib/prerender-mathjax.js",
+  "scripts": {
+    "test": "mocha --harmony --require should --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parkmath/prerender-mathjax.git"
+  },
+  "keywords": [
+    "math",
+    "html",
+    "pdf",
+    "mathjax",
+    "prince",
+    "princexml",
+    "latex",
+    "mathml",
+    "svg"
+  ],
+  "author": "Anand Thakker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/parkmath/prerender-mathjax/issues"
+  },
+  "homepage": "https://github.com/parkmath/prerender-mathjax",
+  "dependencies": {
+    "MathJax-node": "https://github.com/mathjax/MathJax-node/tarball/master",
+    "concat-stream": "^1.4.6",
+    "debug": "^2.0.0",
+    "jsdom": "^1.0.1",
+    "koa": "^0.12.2",
+    "koa-send": "^1.3.1",
+    "through2": "^0.6.3",
+    "trumpet": "^1.7.0"
+  },
+  "devDependencies": {
+    "should": "^4.0.4",
+    "supertest": "^0.14.0"
+  }
+}
