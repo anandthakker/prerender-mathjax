@@ -1,0 +1,16 @@
+{
+  "svgPreview": true,
+  "speakText": true,
+  "linebreaks": true,
+  "singleDollars": true,
+  "inputs": ["AsciiMath","TeX","MathML"],
+  "equationNumbers": "none",
+  "ex": 6,
+  "width": 100,
+
+  "useFontCache": false,
+  "useGlobalCache": false,
+  "font": "TeX",
+  
+  "semantics": true
+}

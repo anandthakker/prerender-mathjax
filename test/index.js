@@ -1,33 +1,21 @@
 var fs = require('fs');
 var request = require('supertest');
 var send = require('koa-send');
-var rendermath = require('..');
-var stripmj = require('../lib/strip-mathjax-scripts');
+var prerender = require('../server');
 var koa = require('koa');
 
-function app() {
-  var app = koa();
-  app.use(function* (next) {
-    yield send(this, this.path, { root: __dirname + '/fixtures' });
-    yield* next;
-  });
-  app.use(rendermath());
-  app.use(stripmj());
-  return app.listen();
-}
-
 describe('prerender-mathjax', function() {
-  describe('when ?stripmj=true', function () {
+  describe('strip-mathjax-scripts', function () {
     it('should strip mathjax scripts', function(done){
-      request(app())
+      request(prerender(__dirname+'/fixtures', {renderer: "MML"}).listen())
       .get('/simple.html?stripmj=true')
       .expect(200)
       .expect(/<head>\s*<\/head>/)
       .end(done);
     })
-    
-    it('shouldn\'t strip non-mathjax scripts', function(done) {
-      request(app())
+  
+    it('should NOT strip NON-mathjax scripts', function(done) {
+      request(prerender(__dirname+'/fixtures', {renderer: "MML"}).listen())
       .get('/nomathjax.html')
       .expect(200)
       .expect(/(script.*){2}/)
@@ -35,14 +23,26 @@ describe('prerender-mathjax', function() {
     });
   })
   
-  describe('when ?rendermath=true', function() {
+  describe('{renderer: "SVG"}', function() {
+    it('should prerender latex equations to SVG', function(done) {
+      request(prerender(__dirname+'/fixtures', {renderer: "SVG"}).listen())
+      .get('/simple.html?prerender=true')
+      .expect(200)
+      .expect(/svg/)
+      .end(done);
+    })
+  })
+  
+  describe('{renderer: "MML"}', function() {
     it('should prerender latex equations to MML', function (done) {
-      request(app())
-      .get('/simple.html?rendermath=true')
+      request(prerender(__dirname+'/fixtures', {renderer: "MML"}).listen())
+      .get('/simple.html?prerender=true')
       .expect(200)
       .expect(/<math\s*xmlns\s*=\s*"http:\/\/www\.w3\.org\/1998\/Math\/MathML/)
       .end(done);
     })
   })
+  
+
 
 })
