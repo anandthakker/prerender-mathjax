@@ -7,13 +7,16 @@ var debug = require('debug')('prerender-mathjax:example')
     prerenderMath = require('./lib/prerender-mathjax'),
     stripmj = require('./lib/strip-mathjax-scripts');
 
+var prerenderMathjax = require('./lib/prerender-mathjax');
 
 module.exports = server;
 
 function server(rootpath, options) {
 
-  var app = koa();
+  var prerender = prerenderMathjax(options);
 
+  var app = koa();
+  
   app.use(function* (next) {
     debug('serve', this.path);
     
@@ -26,8 +29,9 @@ function server(rootpath, options) {
 
     // The main event: if `prerender` is a query parameter, then prerender
     // the math!
-    if(/prerender/.test(this.querystring))
-      yield prerenderMath(this, options);
+    match = /prerender=(MML|SVG)/.exec(this.querystring);
+    if(match !== null)
+      yield prerender(this, {renderer: match[1]});
 
     // Just a little helper function to strip out any MathJax-related <script>
     // elements.  Presumably, the reason we're prerendering is because we don't
@@ -44,17 +48,19 @@ function server(rootpath, options) {
   return app;
 }
 
-if(require.main === module) {
-  
-  if (process.argv.length <= 2) {
-    console.log("Usage: node --harmony server.js SVG|MML [rootpath]");
-    process.exit();
-  }
-  
-  var renderer = process.argv.length > 2 ? process.argv[2] : 'SVG';
+if(require.main === module) {  
   // either use current directory or command line argument as root path
   // to serve files from.
-  var rootpath = process.argv.length > 3 ? process.argv[3] : __dirname;
-  server(rootpath, {renderer: renderer})
-  .listen(3000 || process.env.PORT);
+  var rootpath = process.argv.length > 2 ? process.argv[2] : __dirname;
+  var port = process.env.PORT || 3000;
+  server(rootpath, {
+    MathJax: {
+      menuSettings: {semantics: true},
+      SVG: {font: "TeX"}
+    }
+  })
+  .listen(port, function() {
+    console.log("Server listening on "+port);
+    console.log("Use:\nhttp://localhost:"+port+"/filename.html?prerender={SVG|MML}[&stripmj=true]");
+  });
 }

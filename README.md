@@ -30,32 +30,48 @@ var prerenderServer = require('prerender-mathjax/server');
 prerenderServer(ROOT, options).listen(3000);
 ```
 
-Where `ROOT` is the path from which to serve files and `options` contains at
-least the key `renderer`, with value `"MML"` or `"SVG"`.
+Where `ROOT` is the path from which to serve files and `options` is the config
+object expected by the `config` method of the MathJax-node API. Example config:
 
+```javascript
+var options = {
+  MathJax: {
+    menuSettings: {semantics: true},
+    SVG: {font: "TeX"}
+  }
+}
+```
+
+Server will serve files from `ROOT` and respect the following query params:
+- `prerender={MML|SVG}` - prerender math using the given output format.
+- `stripmj` - strip out MathJax-related &lt;script> tags.
 
 ## As Koa middleware:
 
 ```javascript
-var prerenderMath = require('prerender-mathjax');
+var prerender = require('prerender-mathjax')(options);
 
 // Upstream middleware that populates `this.body` with HTML (can be a String,
 // Buffer, or Stream).
 
 app.use(function*(next) {
-  yield prerenderMath(this, options);
+  yield prerender(this, options);
   yield* next;
 })
 ```
 
-Where `options` contains at least the key `renderer`, with value `"MML"` or
-`"SVG"`.
+Where `options` is the config object expected by the `config` method of the 
+MathJax-node API. (See above for example.)
+
+This is *just* the prerendering logic.  To make it contingent on query 
+parameters and to strip out MathJax &lt;script> elements, see 
+[the server code](/server.js).
 
 
 ## From the command line:
 
 ```bash
-node --harmony server.js [OUTPUT_TYPE] test/fixtures/
+node --harmony server.js test/fixtures/
 ```
 
 Point to http://localhost:3000/simple.html.
@@ -84,7 +100,7 @@ Result:
 </html>
 ```
 
-Run with `OUTPUT_TYPE` as `MML` and point to http://localhost:3000/simple.html?prerender=true&stripmj=true.
+Point to http://localhost:3000/simple.html?prerender=MML&stripmj=true.
 Result:
 
 ```html
@@ -119,7 +135,7 @@ Result:
 </html>
 ```
 
-Run with `OUTPUT_TYPE` as `SVG` and point to http://localhost:3000/simple.html?prerender=true&stripmj=true.
+Point to http://localhost:3000/simple.html?prerender=SVG&stripmj=true.
 Result:
 
 
