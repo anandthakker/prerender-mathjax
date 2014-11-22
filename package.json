@@ -1,6 +1,6 @@
 {
   "name": "prerender-mathjax",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Preprocess mathy html with MathJax-node and then use PrinceXML to output PDF.",
   "main": "lib/prerender-mathjax.js",
   "scripts": {
