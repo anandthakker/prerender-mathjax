@@ -6,18 +6,7 @@ Use [MathJax][1] to prerender math in HTML documents on the server side.
 # Installation
 
 ```bash
-npm install prerender-mathjax
-npm install
-```
-
-In addition, `MathJax-node` has a dependency on `MathJax` core that isn't yet
-set up through `npm`.  So, you'll need to do the following:
-
-```bash
-cd node_modules/MathJax-node
-git clone https://github.com/mathjax/MathJax mathjax
-cd mathjax
-git checkout develop
+npm install --save prerender-mathjax
 ```
 
 # Usage

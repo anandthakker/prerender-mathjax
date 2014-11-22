@@ -93,26 +93,24 @@ describe('prerender-mathjax', function() {
   });
   
 
-  // Broken!
-  //
-  // it('should handle requests for different output formats', function(done) {
-  //   var count = 10;
-  //   var server = prerender(__dirname+'/fixtures', mjapioptions).listen();
-  //   
-  //   function requests(count) {
-  //     if(count-- < 0)
-  //       return done();
-  // 
-  //     request(server)
-  //     .get(count % 2 == 0 ? SVG_URL : SVG_URL)
-  //     .expect(200)
-  //     .expect(count % 2 == 0 ? SVG_URL : SVG_BODY)
-  //     .end(function() {requests(count)});
-  //   }
-  //   
-  //   this.timeout(count*1000);
-  //   requests(count);
-  // });
+  it('should handle requests for different output formats', function(done) {
+    var count = 10;
+    var server = prerender(__dirname+'/fixtures', mjapioptions).listen();
+    
+    function requests(count) {
+      if(count-- < 0)
+        return done();
+  
+      request(server)
+      .get(count % 2 == 0 ? SVG_URL : SVG_URL)
+      .expect(200)
+      .expect(count % 2 == 0 ? SVG_URL : SVG_BODY)
+      .end(function() {requests(count)});
+    }
+    
+    this.timeout(count*1000);
+    requests(count);
+  });
   
 
 

@@ -28,7 +28,7 @@ function server(rootpath, options) {
     yield send(this, this.path, { root: rootpath });
 
     // The main event: if `prerender` is a query parameter, then prerender
-    // the math!
+    // the math using selected given renderer.
     match = /prerender=(MML|SVG)/.exec(this.querystring);
     if(match !== null)
       yield prerender(this, {renderer: match[1]});
@@ -41,7 +41,7 @@ function server(rootpath, options) {
 
     // Yield downstream.  You could also put this before the prerendering,
     // particularly if you had downstream middleware generating content that might
-    // include.
+    // include math.
     yield* next;
   });
   
