@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/anandthakker/prerender-mathjax",
   "dependencies": {
-    "MathJax-node": "https://github.com/mathjax/MathJax-node/tarball/master",
+    "MathJax-node": "https://github.com/anandthakker/MathJax-node/tarball/master",
     "concat-stream": "^1.4.6",
     "debug": "^2.0.0",
     "jsdom": "^1.0.1",
