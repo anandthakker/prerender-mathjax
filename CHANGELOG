@@ -1,0 +1,12 @@
+2014-11-24 - 1.0.2 (2c482da)
+2c482da (HEAD, master) move MathJax-node dependencey to my fork
+3b5900c fix bug with option defaults
+527b1bf expose processHTML function for convenient non-koa usage
+cf7123d (tag: v1.0.1, origin/master) 1.0.1
+895c237 Re-add test for switching renderer on the fly.
+105a144 Update api to allow output format as a per-request option
+0bb4c72 Reorganize API, fill in readme.
+6fbfec2 Initial commit part 2
+5edb271 Initial commit
+
+
